@@ -1,0 +1,71 @@
+{% extends 'base_app.html' %}
+{% load static %}
+
+{% block title %}Sign Up | MinistryHub{% endblock %}
+
+{% block content %}
+<!-- Optional underlying page layout (simulating the background lock setup from profile) -->
+<section class="auth-section dashboard-section" style="background-image: url('{% static "images/couples.jpg" %}');">
+  <div class="auth-container">
+    <h1 class="modal-title">Please Signup</h1>
+  </div>
+</section>
+
+<div id="signup-detail-modal" class="auth-modal active">
+  <div class="modal-content">
+    <div>
+      <h2 class="modal-title">Join MinistryHub</h2>
+      <p class="modal-subtitle">Create your community account today</p>
+    </div>
+
+    {% if form.errors %}
+      <div class="alert alert-error">
+        <strong>Error:</strong> Please check your input and try again.
+      </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'signup' %}" class="auth-form">
+      {% csrf_token %}
+
+      <div class="form-row">
+        <label for="id_username">Username <span style="color: #8B0000;">*</span></label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <div class="form-errors">{{ form.username.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-row">
+        <label for="id_email">Email <span style="color: #8B0000;">*</span></label>
+        {{ form.email }}
+        {% if form.email.errors %}
+          <div class="form-errors">{{ form.email.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-row">
+        <label for="id_password1">Password <span style="color: #8B0000;">*</span></label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+          <div class="form-errors">{{ form.password1.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-row">
+        <label for="id_password2">Confirm Password <span style="color: #8B0000;">*</span></label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+          <div class="form-errors">{{ form.password2.errors }}</div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Create Account</button>
+    </form>
+
+    <p class="auth-switch">
+      Already a member?
+      <a href="{% url 'login' %}">Sign in</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

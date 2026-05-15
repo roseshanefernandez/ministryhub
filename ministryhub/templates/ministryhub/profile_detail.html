@@ -1,0 +1,56 @@
+{% extends 'base_app.html' %}
+{% load static %}
+
+{% block title %}My Profile | MinistryHub{% endblock %}
+
+{% block content %}
+<section class="auth-section dashboard-section" style="background-image: url('{% static "images/couples.jpg" %}');">
+  <div class="auth-container">
+    <h1 class="modal-title">Your Profile</h1>
+  </div>
+</section>
+
+<div class="auth-modal active" id="profile-detail-modal">
+  <div class="modal-content">
+    <h2 class="modal-title">{{ profile.first_name }} {{ profile.last_name }}</h2>
+    <p class="modal-subtitle">Member since: {{ profile.user.date_joined|date:"F j, Y" }}</p>
+
+    <div class="form-row">
+      <label>Birthday</label>
+      <div>{{ profile.birthday|date:"F j, Y" }}</div>
+    </div>
+
+    <div class="form-row">
+      <label>Spouse</label>
+      <div>{% if profile.spouse %}{{ profile.spouse.get_full_name|default:profile.spouse.username }}{% else %}<em>None listed</em>{% endif %}</div>
+    </div>
+
+    <div class="form-row">
+      <label>Facebook</label>
+      <div>{% if profile.facebook_page %}<a href="{{ profile.facebook_page }}" target="_blank" rel="noopener" class="project-link">View FB page</a>{% else %}<em>None provided</em>{% endif %}</div>
+    </div>
+
+    <div class="form-row">
+      <label>Ministry Involvement</label>
+      <div>
+        {% if profile.ministry %}
+          <ul class="no-bullets">
+            {% for m in profile.ministry %}
+              <li>{{ m }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <em>No ministries selected</em>
+        {% endif %}
+      </div>
+    </div>
+
+<div class="modal-actions">
+    <a href="{% url 'ministryhub:dashboard' %}"
+       class="btn btn-primary">
+        Back to Dashboard
+    </a>
+</div>
+  </div>
+</div>
+{% endblock %}

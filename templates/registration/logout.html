@@ -1,0 +1,18 @@
+{% extends 'base_app.html' %}
+{% load static %}
+
+{% block title %}Logged out | MinistryHub{% endblock %}
+
+{% block content %}
+<div id="logout-modal" class="auth-modal active">
+  <div class="modal-content">
+    <h2 class="modal-title">You have been logged out</h2>
+    <p class="modal-subtitle">Successful logout. Please login again to continue.</p>
+
+    <div class="auth-actions">
+      <a href="{% url 'login' %}" class="btn btn-primary">Go to Login</a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

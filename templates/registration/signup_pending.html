@@ -1,0 +1,21 @@
+{% extends 'base_app.html' %}
+{% load static %}
+
+{% block title %}Sign up submitted | MinistryHub{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="auth-container">
+    <div class="alert alert-success">
+      <h2 class="modal-title" style="color: #228B22; margin-bottom: 1rem;">Welcome, {{ username }}!</h2>
+      <p><strong>Your account has been created successfully.</strong></p>
+      <p style="margin-top: 1rem;">Your account is now pending activation by a MinistryHub administrator. Once approved, you'll receive a confirmation and be able to access the full community.</p>
+      <p style="margin-top: 1rem; font-style: italic;">Thank you for joining our faith community.</p>
+    </div>
+
+    <p class="auth-switch">
+      Please check back later to <a href="{% url 'login' %}">sign in</a> or reach out to <a href="/">me</a>.
+    </p>
+  </div>
+</section>
+{% endblock %}

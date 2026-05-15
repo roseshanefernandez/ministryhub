@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section id="home" class="hero">
+    <div class="container">
+
+        <div class="hero-content">
+
+            <h1 class="hero-title">
+                AI-Assisted Engineering for Modern Web Experiences
+            </h1>
+
+            <p class="hero-subtitle">
+                Web developer exploring the intersection of AI,
+                DevOps, and scalable backend systems.
+                This portfolio itself was designed and developed
+                with AI-assisted workflows using Django and cloud infrastructure.
+            </p>
+
+            <a href="#projects" class="cta-button">
+                Explore My Work
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+<section id="about" class="about">
+    <div class="container">
+
+        <h2 class="section-title">About Me</h2>
+        <div class="divider"></div>
+
+        <div class="about-wrapper">
+
+            <div class="about-photo">
+                <img src="{% static 'images/profile.png' %}"
+                     alt="Profile Photo"
+                     class="profile-image">
+            </div>
+
+            <div class="about-text-section">
+
+                <p class="about-text">
+                    I'm a backend-focused full-stack developer passionate about
+                    AI-assisted engineering, automation, and scalable infrastructure.
+
+                    This portfolio is part of my exploration into modern
+                    AI-enhanced development workflows — combining human creativity,
+                    cloud-native architecture, and intelligent tooling to build
+                    faster, cleaner, and more maintainable systems.
+
+                    My focus areas include Django development,
+                    DevOps pipelines, cloud deployment, containerization,
+                    and AI-integrated product experiences.
+                </p>
+
+                <div class="skills-grid">
+                    <div class="skill-badge">Python</div>
+                    <div class="skill-badge">Django</div>
+                    <div class="skill-badge">Docker</div>
+                    <div class="skill-badge">AWS</div>
+                    <div class="skill-badge">PostgreSQL</div>
+                    <div class="skill-badge">Nginx</div>
+                    <div class="skill-badge">GitHub Actions</div>
+                    <div class="skill-badge">CI/CD</div>
+                    <div class="skill-badge">AI-Assisted Development</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section id="projects" class="projects">
+    <div class="container">
+
+        <h2 class="section-title">Projects</h2>
+        <div class="divider"></div>
+
+        <div class="projects-grid">
+            <div class="project-card reveal">
+
+                <h3 class="project-title">
+                    MinistryHub
+                </h3>
+
+                <p class="project-description">
+                    MinistryHub is our digital gathering place where faith meets fellowship.
+                    Designed to bring our ministry closer together, it allows members to connect,
+                    share ideas, and work hand-in-hand in serving God and others.
+                    From event updates to important announcements,
+                    MinistryHub keeps everyone informed and engaged,
+                    helping our community grow stronger as one family in Christ.
+                </p>
+
+                <div class="project-tech">
+                    Django • Docker • AWS • Nginx • PostgreSQL
+                </div>
+
+                <a href="{% url 'ministryhub:dashboard' %}" class="project-link">
+                    View Project →
+                </a>
+
+            </div>
+            <!--
+            <div class="project-card reveal">
+
+                <h3 class="project-title">
+                    AI-Assisted Portfolio Platform
+                </h3>
+
+                <p class="project-description">
+                    Production-ready portfolio built with AI-assisted workflows
+                    using Django, Docker, PostgreSQL, and AWS infrastructure.
+                </p>
+
+                <div class="project-tech">
+                    Django • Docker • AWS • Nginx • PostgreSQL
+                </div>
+
+                <a href="#" class="project-link">
+                    View Project →
+                </a>
+
+            </div>
+
+            <div class="project-card reveal">
+
+                <h3 class="project-title">
+                    CI/CD Automation Pipeline
+                </h3>
+
+                <p class="project-description">
+                    Automated deployment pipelines using GitHub Actions,
+                    containerized workloads, and EC2 cloud infrastructure.
+                </p>
+
+                <div class="project-tech">
+                    GitHub Actions • Docker • AWS EC2
+                </div>
+
+                <a href="#" class="project-link">
+                    View Project →
+                </a>
+
+            </div>
+            -->
+
+        </div>
+
+    </div>
+</section>
+
+<section id="resume" class="resume">
+    <div class="container">
+
+        <h2 class="section-title">Resume</h2>
+        <div class="divider"></div>
+
+        <p class="resume-intro">
+            Download my comprehensive resume to learn more about my experience,
+            technical skills, and professional background.
+        </p>
+
+        <div class="resume-button-wrapper">
+            <a href="{% static 'documents/resume.pdf' %}"
+               class="resume-button"
+               download>
+                ⬇️ Download Resume (PDF)
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<section id="certifications" class="certifications">
+    <div class="container">
+
+        <h2 class="section-title">Certifications</h2>
+        <div class="divider"></div>
+
+        <div class="certifications-grid">
+
+            <div class="certification-card">
+                <img src="{% static 'documents/certs/careerboost.png' %}"
+                     alt="CareerBoost AI Certification"
+                     class="cert-image"
+                     onclick="openLightbox(this)">
+                <a href="{% static 'documents/certs/careerboost.pdf' %}"
+                   class="cert-link">
+                    Download →
+                </a>
+            </div>
+
+            <div class="certification-card">
+                <img src="{% static 'documents/certs/techademy_ba_ai.png' %}"
+                     alt="Tech Academy AI Native BM Certification"
+                     class="cert-image"
+                     onclick="openLightbox(this)">
+                <a href="https://www.techademyonline.com/credentials/7f7bf87d-54a2-44a7-a3d3-5ca9d6555716"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="cert-link">
+                    View Online →
+                </a>
+            </div>
+
+            <div class="certification-card">
+                <img src="{% static 'documents/certs/techademy_pm_ai.png' %}"
+                     alt="Tech Academy AI Native PM Certification"
+                     class="cert-image"
+                     onclick="openLightbox(this)">
+                <a href="https://www.techademyonline.com/credentials/bc3305ad-efad-4e80-ba11-5d374772e45e"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="cert-link">
+                    View Online →
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox-modal" class="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-image" src="" alt="Certificate" class="lightbox-image">
+</div>
+
+<section id="architecture" class="architecture">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Infrastructure Stack
+        </h2>
+
+        <div class="divider"></div>
+
+        <p class="architecture-intro">
+            This website is deployed using a production-ready
+            cloud infrastructure focused on scalability,
+            reliability, and modern DevOps practices.
+        </p>
+
+        <div class="architecture-grid">
+
+            <div class="arch-card">
+                <div class="arch-icon">☁️</div>
+                <h3>Cloudflare</h3>
+                <p>DNS, SSL, CDN, and edge protection.</p>
+            </div>
+
+            <div class="arch-card">
+                <div class="arch-icon">🖥️</div>
+                <h3>AWS EC2</h3>
+                <p>Linux compute infrastructure hosting the application.</p>
+            </div>
+
+            <div class="arch-card">
+                <div class="arch-icon">⚡</div>
+                <h3>Nginx</h3>
+                <p>Reverse proxy and static asset serving.</p>
+            </div>
+
+            <div class="arch-card">
+                <div class="arch-icon">🔫</div>
+                <h3>Gunicorn</h3>
+                <p>WSGI application server powering Django.</p>
+            </div>
+
+            <div class="arch-card">
+                <div class="arch-icon">🐍</div>
+                <h3>Django</h3>
+                <p>Backend framework handling application logic and APIs.</p>
+            </div>
+
+            <div class="arch-card">
+                <div class="arch-icon">🗄️</div>
+                <h3>AWS RDS PostgreSQL</h3>
+                <p>Managed relational database for persistent storage.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="contact" class="contact">
+    <div class="container">
+
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="divider"></div>
+
+        <p>
+            Currently available for full-stack, backend,
+            and AI-assisted engineering opportunities.
+        </p>
+        <br>
+
+        <a href="mailto:roseshanefernandez@gmail.com"
+            class="cta-button">
+            Hire Me
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}

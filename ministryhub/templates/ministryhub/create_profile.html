@@ -1,0 +1,60 @@
+<div class="auth-modal" id="profile-modal">
+
+    <div class="modal-content">
+
+        <button class="modal-close">
+            ✕
+        </button>
+
+        <h2 class="modal-title">
+            Create Your Profile
+        </h2>
+
+        <p class="modal-subtitle">
+            Please complete your profile to continue.
+        </p>
+
+        <form action="{% url 'ministryhub:create_profile' %}"
+              class="auth-form"
+              method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-row">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+            </div>
+
+            <div class="form-row">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+            </div>
+
+            <div class="form-row">
+                {{ form.birthday.label_tag }}
+                {{ form.birthday }}
+            </div>
+
+            <div class="form-row">
+                {{ form.spouse.label_tag }}
+                {{ form.spouse }}
+            </div>
+
+            <div class="form-row">
+                {{ form.facebook_page.label_tag }}
+                {{ form.facebook_page }}
+            </div>
+
+            <div class="form-row">
+                {{ form.ministry.label_tag }}
+                {{ form.ministry }}
+            </div>
+
+            <button class="btn btn-primary" type="submit">
+                Save Profile
+            </button>
+
+        </form>
+
+    </div>
+</div>

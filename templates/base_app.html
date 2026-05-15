@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MinistryHub{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_css %}{% endblock %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="cursor-glow"></div>
+
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-brand">{% if user.is_authenticated %}Hi, {{ user.username }} {% endif %}</div>
+        <ul class="nav-menu">
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'ministryhub:dashboard' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'ministryhub:profile' %}" class="nav-link">Profile</a></li>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-link btn-link">Logout</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+            {% endif %}
+            <li><button class="theme-toggle" id="theme-toggle"></button></li>
+        </ul>
+    </div>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer class="footer">
+    <div class="container">
+        <p>AI Tools Used: ChatGPT • Gemini • Manus • JetBrains AI Assistant • Junie</p>
+    </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

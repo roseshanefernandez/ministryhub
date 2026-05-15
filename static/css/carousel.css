@@ -1,0 +1,239 @@
+:root {
+    --primary: #d6b36a;
+    --secondary: #ffffff;
+    --glass: rgba(255,255,255,0.12);
+    --glass-border: rgba(255,255,255,0.2);
+    --dark-bg: #0e1116;
+    --light-text: #f4f4f4;
+    --muted: rgba(255,255,255,0.72);
+    --shadow: 0 12px 40px rgba(0,0,0,0.35);
+    --transition: all 0.35s ease;
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.dashboard-section {
+    position: relative;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 120px 0 80px;
+}
+
+.dashboard-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(10,10,10,0.68),
+            rgba(10,10,10,0.74)
+        );
+    backdrop-filter: blur(3px);
+}
+
+.dashboard-content {
+    position: relative;
+    z-index: 2;
+}
+
+.dashboard-hero {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(214,179,106,0.15);
+    border: 1px solid rgba(214,179,106,0.35);
+    color: var(--primary);
+    margin-bottom: 22px;
+}
+
+.hero-title {
+    color: white;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    margin-bottom: 22px;
+}
+
+.hero-description {
+    max-width: 760px;
+    margin: auto;
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+.carousel-shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.carousel-window {
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.5s ease;
+    width: 100%; /* Ensures the track fills the viewport box constraints */
+}
+
+/* Desktop View (3 Columns) */
+.carousel-card {
+    min-width: calc(33.333% - 16px);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    overflow: hidden;         /* Critically crops any image overflowing boundaries */
+    backdrop-filter: blur(16px);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+
+    display: flex;            /* NEW: Turns the card into a flexible layout container */
+    flex-direction: column;   /* NEW: Forces elements to stack vertically instead of overlapping */
+}
+
+.carousel-card:hover {
+    transform: translateY(-8px) scale(1.01);
+}
+
+/* 2. Tighten the image box dimensions */
+.event-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 240px;            /* Reduced from 280px to give the poster artwork better visibility */
+    overflow: hidden;
+    flex-shrink: 0;           /* NEW: Stops the image frame from squeezing or compressing */
+}
+
+/* 3. Apply the rendering logic to the asset */
+.event-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;        /* Fills the box bounds cleanly without warping dimensions */
+    object-position: top center; /* CHANGED: Keeps the main title ("THE ROSARY") visible at the top */
+    display: block;
+}
+
+/* 4. Let the content fill the remaining space cleanly */
+.event-content {
+    padding: 24px;
+    flex-grow: 1;             /* NEW: Automatically stretches text container to fill card base */
+    background: rgba(14, 17, 22, 0.45); /* NEW: Adds text readability backing over background */
+}
+
+/* Added: Smooth zoom effect on the image when hovering over the card */
+.carousel-card:hover .event-image {
+    transform: scale(1.05);
+}
+
+/* New: Fixes the placeholder text centering when event.poster is missing */
+.event-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;             /* Uses flexbox layout to isolate text */
+    align-items: center;       /* Vertically centers text */
+    justify-content: center;   /* Horizontally centers text */
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.event-content h3 {
+    color: white;
+}
+
+.event-content p {
+    color: var(--muted);
+}
+
+.carousel-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.14);
+    color: white;
+    cursor: pointer;
+}
+
+.ministry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 70px;
+}
+
+.glass-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 30px;
+    backdrop-filter: blur(14px);
+}
+
+.card-header h3,
+blockquote, .prayer-list, .schedule-card,
+.schedule-item strong {
+    color: white;
+}
+
+.event-date, .verse-card{
+    color: var(--primary);       /* Uses your theme's lighter, semi-transparent white */
+    font-size: 0.85rem;        /* Makes the metadata text slightly cleaner */
+    font-weight: 400;          /* Keeps the font weight clean and readable */
+    display: inline-block;
+    margin-top: 8px;           /* Adds a clean layout separation from the paragraph above */
+}
+
+@media (max-width: 1024px) {
+    .carousel-card {
+        flex: 0 0 calc(50% - 12px);
+    }
+
+    .ministry-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-card {
+        flex: 0 0 100%;
+    }
+
+    .carousel-btn {
+        display: none;
+    }
+}
+
+.section-heading {
+    margin-bottom: 30px;
+    text-align: center;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-heading h2 {
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    line-height: 1.7;
+}
