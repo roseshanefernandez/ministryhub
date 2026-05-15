@@ -1,7 +1,7 @@
 services:
  web:
    image: roseshane/portfolio:latest
-   command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:8000"
+   command: sh -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:8000"
    restart: always
    volumes:
      - static_volume:/app/staticfiles

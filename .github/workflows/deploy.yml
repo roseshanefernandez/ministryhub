@@ -1,0 +1,50 @@
+name: Free-Tier CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/portfolio:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/portfolio:${{ github.sha }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute Remote SSH Commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Navigate to your production directory on EC2
+            cd ~
+            
+            # Fetch the newly built image layers using existing EC2 credentials
+            docker compose -f docker-compose.prod.yml pull
+            
+            # Restart containers. Your safe compose runtime command will execute automatically.
+            docker compose -f docker-compose.prod.yml up -d --build
+            
+            # Clean up old images to save free-tier disk storage
+            docker image prune -f
