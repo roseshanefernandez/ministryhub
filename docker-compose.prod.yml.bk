@@ -7,9 +7,13 @@ services:
    volumes:
      - static_volume:/app/staticfiles
      - media_volume:/app/media
-   # Removed empty command block to allow entrypoint to execute naturally
+   command: ""
    environment:
      - PYTHONUNBUFFERED=1
+     - ENVIRONMENT=${ENVIRONMENT}
+     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+     - AWS_SES_REGION_NAME=${AWS_SES_REGION_NAME}
 
  nginx:
     image: nginx:alpine

@@ -1,13 +1,17 @@
 services:
  web:
    build: .
-   restart: always
+   # restart: always  # Optional: comment out for dev so it doesn't loop on syntax errors
+   user: "root"        # FIX 1: Overwrites Dockerfile user so mounted files can be read/watched
+   ports:
+     - "8000:8000"    # FIX 2: Exposes Django so Nginx or your browser can talk to it
    volumes:
      - .:/app
      - static_volume:/app/staticfiles
      - media_volume:/app/media
    command: sh -c "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
    environment:
+     PYTHONUNBUFFERED: 1
      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
      DEBUG: ${DJANGO_DEBUG}
      DJANGO_LOGLEVEL: ${DJANGO_LOGLEVEL}
@@ -20,6 +24,15 @@ services:
      DATABASE_PORT: ${DATABASE_PORT}
    env_file:
      - .env.dev
+   depends_on:
+     - db        # FIX 3: Added db here so Django doesn't crash trying to migrate before PG is up
+     - mailpit
+
+ mailpit:
+   image: axllent/mailpit
+   ports:
+     - "1025:1025" # SMTP server port
+     - "8025:8025" # Web UI port to view intercepted emails
 
  db:
    image: postgres:17

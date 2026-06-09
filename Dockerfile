@@ -1,9 +1,6 @@
 # Stage 1: Base build stage
 FROM python:3.13-slim AS builder
 
-# Create the app directory
-RUN mkdir /app
-
 # Set the working directory
 WORKDIR /app
 
@@ -23,31 +20,30 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Stage 2: Production stage
 FROM python:3.13-slim
 
-RUN useradd -m -r appuser && \
-   mkdir /app && \
-   chown -R appuser /app
+# Create a system user and group first
+RUN groupadd -r appgroup && useradd -r -g appgroup -m appuser
 
-RUN mkdir -p /app/media/events && chown -R www-data:www-data /app/media
-
-# Copy the Python dependencies from the builder stage
-COPY --from=builder /usr/local/lib/python3.13/site-packages/ /usr/local/lib/python3.13/site-packages/
-COPY --from=builder /usr/local/bin/ /usr/local/bin/
-
-# Set the working directory
 WORKDIR /app
 
-# Copy application code
-COPY --chown=appuser:appuser . .
-
-# Set environment variables to optimize Python
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Copy the SSL self signed certs for nginx CloudFare -> Nginx
-COPY certs/server.crt /etc/nginx/certs/server.key
-COPY certs/server.crt /etc/nginx/certs/server.crt
+# Copy python dependencies from builder stage
+COPY --from=builder /usr/local/lib/python3.13/site-packages/ /usr/local/lib/python3.13/site-packages/
+COPY --from=builder /usr/local/bin/ /usr/local/bin/
 
-# Start the application using Gunicorn
-CMD ["sh", "-c", "python manage.py collectstatic --noinput \
-    && gunicorn core.wsgi:application \
-    --bind 0.0.0.0:8000"]
+# Create necessary directories and set permissions
+RUN mkdir -p /app/staticfiles /app/media/events && \
+    chown -R appuser:appgroup /app
+
+# Copy the entrypoint script and set executable permissions
+COPY --chown=appuser:appgroup entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# Copy the rest of the application code
+COPY --chown=appuser:appgroup . .
+
+# Secure the runtime by switching away from root
+USER appuser
+
+ENTRYPOINT ["/app/entrypoint.sh"]
