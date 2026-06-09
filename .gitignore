@@ -1,0 +1,32 @@
+# Python bytecode cache (compiled files)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local environment variables and secrets
+.env
+.secrets
+.certs
+
+# Databases (Do not commit your local SQLite testing database)
+db.sqlite3
+db.sqlite3-journal
+db_name
+
+# Media and file uploads (User uploaded content)
+media/
+certs/
+
+# Virtual Environments
+.venv/
+.env*
+.npm-cache
+.junie
+
+# IDE and Editor configurations
+.vscode/
+.idea/
+
+# OS specific files
+.DS_Store
+Thumbs.db

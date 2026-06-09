@@ -5,7 +5,34 @@ on:
     branches: [ main ]
 
 jobs:
+  # New job to validate code formatting before building
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' # Change to match your Python version
+
+      - name: Install Linting Tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install black isort djhtml
+
+      - name: Run Isort Check
+        run: isort --check-only --diff .
+
+      - name: Run Black Check
+        run: black --check --diff .
+
+      - name: Run DjHTML Check
+        run: djhtml --check .
+
   build-and-push:
+    needs: lint-and-format
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -30,10 +57,33 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Configure AWS CLI tools to look up your server info
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-1 # ⚠️ Change this to your actual EC2 instance region
+
+      # Step 2: Request the live public IP directly from the cloud provider
+      - name: Get EC2 Public IP Dynamically
+        id: ec2_info
+        run: |
+          # Query AWS to find your running instance and return its current public IP
+          # ⚠️ REPLACE 'YOUR_EC2_INSTANCE_ID' with your actual instance ID (e.g., i-0abcd1234efgh5678)
+          PUBLIC_IP=$(aws ec2 describe-instances \
+            --instance-ids i-06b338f84d6b9d337 \
+            --query "Reservations[*].Instances[*].PublicIpAddress" \
+            --output text)
+          
+          # Inject the retrieved IP address into the GitHub Environment variables
+          echo "LIVE_EC2_HOST=$PUBLIC_IP" >> $GITHUB_ENV
+
+      # Step 3: Run your remote code deployment using the live IP address
       - name: Execute Remote SSH Commands
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.EC2_HOST }}
+          host: ${{ env.LIVE_EC2_HOST }}  # Uses the variable generated in Step 2
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
