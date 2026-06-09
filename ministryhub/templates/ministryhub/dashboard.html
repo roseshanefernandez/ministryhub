@@ -1,141 +1,117 @@
-{% extends "base_app.html" %}
+{% extends "ministryhub/base.html" %}
 {% load static %}
-
 {% block extra_css %}
-<link href="{% static 'css/carousel.css' %}" rel="stylesheet">
+    <link href="{% static 'css/carousel.css' %}" rel="stylesheet">
 {% endblock %}
-
 {% block content %}
-<section class="dashboard-section"
-         data-show-profile-modal="{{ show_profile_modal|yesno:'true,false' }}"
-         images images style="background-image: url('{% static "images/couples.jpg" %}');">
-
-{% include "ministryhub/create_profile.html" %}
-
-<div class="dashboard-overlay"></div>
-
-<div class="dashboard-content container">
-
-    <div class="dashboard-hero fade-up">
-        <span class="hero-badge">❤ You Are Loved ❤</span>
-        <h1 class="hero-title">
-            Build a Christ-Centered Home
-        </h1>
-        <p class="hero-description">
-            Stay connected with ministry events, worship schedules,
-            prayer requests, and community updates.
-        </p>
-    </div>
-
-    {% if upcoming_events %}
-    <section class="event-section fade-up delay-1">
-        <div class="section-heading">
-            <h2>Upcoming Ministry Events</h2>
-        </div>
-
-        <div class="carousel-shell">
-
-            <button class="carousel-btn prev" onclick="carouselPrev()">
-                ❮
-            </button>
-
-            <div class="carousel-window">
-                <div class="carousel-track" id="carouselTrack">
-
-                    {% for event in upcoming_events %}
-                    <article class="carousel-card">
-
-                        <div class="event-image-wrapper">
-                            {% if event.poster %}
-                            <img alt="{{ event.name }}"
-                                 class="event-image"
-                                 src="{{ event.poster.url }}">
-                            {% else %}
-                            <div class="event-image-placeholder">
-                                Ministry Event
+    <section class="dashboard-section"
+             data-show-profile-modal="{{ show_profile_modal|yesno:'true,false' }}"
+             style="background-image: url('{% static "images/couples.jpg" %}')">
+        {% include "ministryhub/create_profile.html" %}
+        <div class="dashboard-overlay"></div>
+        <div class="dashboard-content container">
+            <div class="dashboard-hero fade-up">
+                <span class="hero-badge">❤ You Are Loved ❤</span>
+                <h1 class="hero-title">Build a Christ-Centered Home</h1>
+                <p class="hero-description">
+                    Stay connected with ministry events, worship schedules,
+                    prayer requests, and community updates.
+                </p>
+            </div>
+            {% if upcoming_events %}
+                <section class="event-section fade-up delay-1">
+                    <div class="section-heading">
+                        <h2>Upcoming Ministry Events</h2>
+                    </div>
+                    <div class="carousel-shell">
+                        <button class="carousel-btn prev" onclick="carouselPrev()">❮</button>
+                        <div class="carousel-window">
+                            <div class="carousel-track" id="carouselTrack">
+                                {% for event in upcoming_events %}
+                                    <article class="carousel-card">
+                                        <div class="event-image-wrapper">
+                                            {% if event.poster %}
+                                                <img alt="{{ event.name }}"
+                                                     class="event-image"
+                                                     src="{{ event.poster.url }}">
+                                            {% else %}
+                                                <div class="event-image-placeholder">Ministry Event</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="event-content">
+                                            <h3>{{ event.name }}</h3>
+                                            <p>{{ event.caption }}</p>
+                                            <div class="event-footer">
+                                                <span class="event-date">
+                                                    {{ event.start_date|date:"F d, Y" }}
+                                                    {% if event.start_date != event.end_date %}
+                                                        -
+                                                        {{ event.end_date|date:"F d, Y" }}
+                                                    {% endif %}
+                                                </span>
+                                            </div>
+                                            {% if event.registration_link %}
+                                                <a class="reg-link"
+                                                   href="{{ event.registration_link }}"
+                                                   target="_blank"
+                                                   rel="noopener noreferrer">Register here</a>
+                                            {% endif %}
+                                        </div>
+                                    </article>
+                                {% endfor %}
                             </div>
-                            {% endif %}
                         </div>
-
-                        <div class="event-content">
-                            <h3>{{ event.name }}</h3>
-                            <p>{{ event.caption }}</p>
-                            <div class="event-footer">
-                                        <span class="event-date">
-                                            {{ event.start_date|date:"F d, Y" }}{%if event.start_date != event.end_date %} -
-                                            {{ event.end_date|date:"F d, Y" }}{% endif %}
-                                        </span>
-                            </div>
-                            {% if event.registration_link %} <a class="reg-link" href="{{ event.registration_link }}">Register here</a> {% endif %}
-                        </div>
-                    </article>
-                    {% endfor %}
+                        <button class="carousel-btn next" onclick="carouselNext()">❯</button>
+                    </div>
+                    <div class="carousel-indicators">
+                        {% for event in upcoming_events %}
+                            <span class="indicator" onclick="carouselGoTo({{ forloop.counter0 }})"></span>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endif %}
+            <section class="ministry-grid fade-up delay-2">
+                <div class="glass-card verse-card">
+                    <div class="card-header">
+                        <h3>Daily Verse</h3>
+                    </div>
+                    {% if verse %}
+                        <blockquote>
+                            {{ verse.verse_text }}
+                        </blockquote>
+                        <span class="verse-reference">
+                            {{ verse.book_name }} {{ verse.chapter_number }}:{{ verse.start_verse }}
+                            {% if verse.start_verse != verse.end_verse %}-{{ verse.end_verse }}{% endif %}
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="glass-card prayer-card">
+                    <a href="{% url 'ministryhub:prayer_requests' %}"
+                       class="prayer-room-link">
+                        <img src="{% static 'images/prayer_room.png' %}"
+                             alt="Prayer Room"
+                             class="prayer-room-image">
+                        <blockquote>Take me to the Prayer Room </blockquote>
+                    </a>
 
                 </div>
-            </div>
-
-            <button class="carousel-btn next" onclick="carouselNext()">
-                ❯
-            </button>
-        </div>
-
-        <div class="carousel-indicators">
-            {% for event in upcoming_events %}
-            <span class="indicator"
-                  onclick="carouselGoTo({{ forloop.counter0 }})"></span>
-            {% endfor %}
+                <div class="glass-card schedule-card">
+                    <div class="card-header">
+                        <h3>Announcements</h3>
+                    </div>
+                    {% for announcement in announcements %}
+                        <div class="schedule-item">
+                            <strong>🔔{{ announcement.title }}</strong>
+                            <blockquote>{{ announcement.message }}</blockquote>
+                        </div>
+                    {% empty %}
+                        <p>No announcements available.</p>
+                    {% endfor %}
+                </div>
+            </section>
         </div>
     </section>
-    {% endif %}
-
-    <section class="ministry-grid fade-up delay-2">
-
-        <div class="glass-card verse-card">
-            <div class="card-header">
-                <h3>Daily Verse</h3>
-            </div>
-            {% if verse %}
-            <blockquote>
-                {{ verse.verse_text }}
-            </blockquote>
-            <span class="verse-reference">
-                {{ verse.book_name }} {{ verse.chapter_number }}:{{ verse.start_verse }}{%if verse.start_verse != verse.end_verse %}-{{ verse.end_verse }}{% endif %}
-            </span>
-            {% endif %}
-        </div>
-
-        <div class="glass-card prayer-card">
-            <div class="card-header">
-                <h3>Prayer Requests</h3>
-            </div>
-            <ul class="prayer-list">
-                <li>Success of Couples Lux Retreat</li>
-                <li>Healing for community members</li>
-                <li>Strength for ministry leaders</li>
-                <li>Good health and protection for everyone</li>
-            </ul>
-        </div>
-
-        <div class="glass-card schedule-card">
-            <div class="card-header">
-                <h3>Mercy Schedule</h3>
-            </div>
-            <div class="schedule-item">
-                <span>CICL</span>
-                <strong>May 17 2:00 PM</strong>
-            </div>
-            <div class="schedule-item">
-                <span>CWPC</span>
-                <strong>May 24 2:00 PM</strong>
-            </div>
-        </div>
-
-    </section>
-
-</div>
-</section>
 {% endblock %}
-
 {% block extra_js %}
-<script src="{% static 'js/carousel.js' %}"></script>
+    <script src="{% static 'js/carousel.js' %}"></script>
 {% endblock %}

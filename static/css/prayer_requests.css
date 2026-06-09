@@ -1,0 +1,278 @@
+/* ============================================
+   PRAYER REQUESTS PAGE - GLASSMORPHISM DESIGN
+   ============================================ */
+
+:root {
+    /* Inherit from main theme */
+    --primary-color: #5C2E3A;
+    --secondary-color: #D4AF37;
+    --accent-color: #F5F1E8;
+    
+    --light-bg: #E8E4DC;
+    --lighter-bg: #F9F7F3;
+    --card-bg: rgba(92, 46, 58, 0.08);
+    
+    --text-color: #2C2C2C;
+    --text-light: #6B6B6B;
+    --border-color: #C9C0B5;
+    --white: #FFFFFF;
+    
+    --shadow: 0 4px 20px rgba(92, 46, 58, 0.08);
+    --shadow-hover: 0 8px 32px rgba(92, 46, 58, 0.12);
+    
+    --transition: all 0.35s ease;
+    
+    /* Prayer page specific */
+    --glass-light: rgba(255, 255, 255, 0.95);
+    --glass-border: rgba(212, 175, 55, 0.2);
+}
+
+[data-theme="dark"] {
+    --primary-color: #A67C8F;
+    --secondary-color: #E8C547;
+    --accent-color: #3D2F3D;
+    
+    --light-bg: #3A3535;
+    --lighter-bg: #2B2625;
+    --card-bg: rgba(212, 175, 55, 0.06);
+    
+    --text-color: #E8E4DC;
+    --text-light: #B0B0B0;
+    --border-color: #5A5555;
+    --white: #1A1A1A;
+    
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.45);
+    
+    --glass-light: rgba(58, 53, 53, 0.95);
+    --glass-border: rgba(232, 197, 71, 0.15);
+}
+
+.prayer-requests-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, 
+        var(--lighter-bg) 0%, 
+        rgba(212, 175, 55, 0.03) 100%);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 80px 0 60px;
+    position: relative;
+    background-image: url('../images/church.jpg');
+}
+
+.prayer-requests-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.prayer-requests-section::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, 
+            rgba(212, 175, 55, 0.05), 
+            transparent 50%),
+        radial-gradient(circle at 80% 80%, 
+            rgba(92, 46, 58, 0.04), 
+            transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.dashboard-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dark overlay for better text readability */
+    z-index: 1;
+}
+
+.prayer-header {
+    text-align: center;
+    margin-bottom: 70px;
+    animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.prayer-empty-state {
+    max-width: 680px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    position: relative;
+    z-index: 3;
+    display: block;
+}
+
+.prayer-empty-state .prayer-empty-message {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.05rem;
+    line-height: 1.9;
+}
+
+.prayer-empty-state-message-subtext {
+    display: block;
+    margin-top: 14px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.96rem;
+    opacity: 0.95;
+}
+
+.prayer-month-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: whitesmoke;
+    margin-bottom: 8px;
+    font-family: 'Georgia', serif;
+    letter-spacing: 0.5px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.prayer-week-subtitle {
+    font-size: 1.1rem;
+    color: whitesmoke;
+    font-style: italic;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.prayer-intro {
+    max-width: 600px;
+    margin: 24px auto 0;
+    color: whitesmoke;
+    font-size: 1rem;
+    line-height: 1.7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.prayer-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+    margin-bottom: 60px;
+    animation: fadeIn 0.8s ease 0.2s both;
+}
+
+/* Prayer Category Card */
+.prayer-card {
+    background: var(--glass-light);
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    padding: 32px 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    min-height: 380px;
+}
+
+.prayer-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        var(--secondary-color), 
+        var(--primary-color), 
+        var(--secondary-color));
+}
+
+.prayer-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    border-bottom: 2px solid var(--secondary-color);
+    border-left: 2px solid var(--secondary-color);
+}
+
+.prayer-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.prayer-card-header {
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.prayer-category-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    display: inline-block;
+}
+
+.prayer-category-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-family: 'Georgia', serif;
+    margin: 0;
+    letter-spacing: 0.3px;
+}
+
+/* --- Prayer Description Container --- */
+.prayer-descriptions-container {
+    flex-grow: 1;
+    position: relative !important;
+    height: 250px;
+    overflow: hidden !important;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 16px;
+    display: block !important;
+}
+
+/* --- Description Item Base (All items now loop) --- */
+.prayer-description-item {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    opacity: 0;
+    display: block !important;
+    color: var(--text-light);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    animation: slowLoopUp 15s linear infinite !important;
+}
+
+/* --- Animation Path --- */
+@keyframes slowLoopUp {
+  0% { transform: translateY(150%); opacity: 0; }
+  10%, 90% { opacity: 1; }
+  100% { transform: translateY(-150%); opacity: 0; }
+}
+
+/* --- Staggered Delays for 7 Items --- */
+.prayer-description-item:nth-child(1) { animation-delay: -0s !important; }
+.prayer-description-item:nth-child(2) { animation-delay: -2.14s !important; }
+.prayer-description-item:nth-child(3) { animation-delay: -4.28s !important; }
+.prayer-description-item:nth-child(4) { animation-delay: -6.42s !important; }
+.prayer-description-item:nth-child(5) { animation-delay: -8.57s !important; }
+.prayer-description-item:nth-child(6) { animation-delay: -10.71s !important; }
+.prayer-description-item:nth-child(7) { animation-delay: -12.85s !important; }
+
+/* REMOVED: .active class, .exiting class, slideUpDescription, slideOutDescription */
+
+.prayer-empty-state-message-subtext {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: block;
+    color: var(--text-light);
+}

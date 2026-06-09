@@ -1,6 +1,6 @@
 /* =========================
    PORTFOLIO STYLES
-   Unique styles for portfolio templates (base.html, index.html)
+   Unique styles for portfolio templates (portfolio_base.html, portfolio.html)
 ========================= */
 
 :root {
@@ -176,6 +176,104 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+}
+
+/* Hamburger Menu Styling */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 4px;
+    gap: 5px;
+    z-index: 101;
+}
+
+.hamburger-menu span {
+    width: 28px;
+    height: 2.5px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+    transition: all 0.35s ease;
+    transform-origin: center;
+}
+
+.hamburger-menu:hover span {
+    background-color: var(--secondary-color);
+}
+
+.hamburger-menu.active span:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+/* Mobile Responsive Navbar */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: var(--white);
+        border-bottom: 1px solid rgba(221, 229, 231, 0.6);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+        align-items: flex-start;
+        padding: 0;
+    }
+
+    .nav-menu.active {
+        max-height: 500px;
+        padding: 1rem 0;
+    }
+
+    .nav-menu li {
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-menu li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 1rem 1.5rem;
+        width: 100%;
+        text-align: left;
+    }
+
+    .nav-link:hover {
+        background-color: rgba(23, 77, 56, 0.06);
+    }
+
+    .theme-toggle {
+        margin: 0.5rem 1.5rem;
+        display: block;
+    }
 }
 
 .nav-brand {
@@ -676,66 +774,6 @@ section {
 }
 
 /* =========================
-   PORTFOLIO FORMS WITH UNIQUE IDENTIFIERS
-========================= */
-
-.portfolio-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
-.portfolio-form-row {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.portfolio-form-row label {
-    font-weight: 500;
-    color: var(--text-color);
-    font-size: 0.95rem;
-}
-
-.portfolio-form-row input,
-.portfolio-form-row textarea,
-.portfolio-form-row select {
-    padding: 10px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    color: var(--text-color);
-    background-color: var(--white);
-    transition: var(--transition);
-}
-
-.portfolio-form-row input:focus,
-.portfolio-form-row textarea:focus,
-.portfolio-form-row select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(23, 77, 56, 0.1);
-}
-
-[data-theme="dark"] .portfolio-form-row input,
-[data-theme="dark"] .portfolio-form-row textarea,
-[data-theme="dark"] .portfolio-form-row select {
-    background-color: rgba(23, 23, 23, 0.5);
-    border-color: var(--border-color);
-}
-
-.portfolio-form-row input::placeholder {
-    color: var(--text-light);
-}
-
-.portfolio-form-errors {
-    color: #DC2626;
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
-}
-
-/* =========================
    ANIMATIONS
 ========================= */
 
@@ -790,40 +828,12 @@ section {
 ========================= */
 
 @media (max-width: 768px) {
-
-    .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1rem;
-    }
-
-    .about-wrapper {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .nav-menu {
-        gap: 1rem;
-    }
+    .hero-title { font-size: 2.5rem; }
+    .hero-subtitle { font-size: 1rem; }
+    .about-wrapper { grid-template-columns: 1fr; text-align: center; }
+    .nav-menu { gap: 1rem; }
 }
-
 @media (max-width: 480px) {
-
-    .nav-menu {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .hero-title {
-        font-size: 2rem;
-    }
-
-    .portfolio-form-row input,
-    .portfolio-form-row textarea,
-    .portfolio-form-row select {
-        padding: 8px 10px;
-        font-size: 0.9rem;
-    }
+    .nav-menu { flex-wrap: wrap; justify-content: center; }
+    .hero-title { font-size: 2rem; }
 }

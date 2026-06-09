@@ -1,0 +1,61 @@
+{% extends "ministryhub/base.html" %}
+{% load static %}
+{% load prayer_tags %}
+{% block extra_css %}
+    <link href="{% static 'css/prayer_requests.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <section class="prayer-requests-section">
+        <div class="dashboard-overlay"></div>
+        <div class="container">
+            <!-- Prayer Page Header -->
+            <div class="prayer-header">
+                <h1 class="prayer-month-title">{{ current_month }}</h1>
+                <p class="prayer-week-subtitle">Week {{ current_week }} Prayer Intentions</p>
+            </div>
+            <!-- Prayer Categories Grid -->
+            {% if not has_prayers %}
+                <!-- Empty State -->
+                <div class="prayer-empty-state">
+                    <p class="prayer-empty-message">
+                        No prayer intentions have been submitted for this week yet.
+                        <br>
+                        <span class="prayer-empty-state-message-subtext">
+                            Trust in God's infinite provision and grace. Come back soon to lift up the needs of our community.
+                        </span>
+                    </p>
+                </div>
+            {% else %}
+                <div class="prayer-categories-grid">
+                    {% for category_code, category_name in prayer_categories %}
+                        <article class="prayer-card" data-category="{{ category_code }}">
+                            <!-- Card Header -->
+                            <div class="prayer-card-header">
+                                <h3 class="prayer-category-title">{{ category_name }}</h3>
+                            </div>
+                            <!-- Prayer Descriptions Container -->
+                            <div class="prayer-descriptions-container">
+                                {# Use with filter syntax for dictionaries #}
+                                {% with category_prayers=prayer_requests_by_category|get_item:category_code %}
+                                    {% if category_prayers %}
+                                        {% for prayer in category_prayers %}
+                                            <p class="prayer-description-item" data-prayer-id="{{ prayer.id }}">{{ prayer.description|linebreaksbr }}</p>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>
+                                            No active prayer requests for this category at this time.
+                                            This intention is entrusted to God's care.
+                                        </p>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/prayer_requests.js' %}"></script>
+{% endblock %}

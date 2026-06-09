@@ -172,6 +172,104 @@ body::after {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+}
+
+/* Hamburger Menu Styling */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 4px;
+    gap: 5px;
+    z-index: 101;
+}
+
+.hamburger-menu span {
+    width: 28px;
+    height: 2.5px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+    transition: all 0.35s ease;
+    transform-origin: center;
+}
+
+.hamburger-menu:hover span {
+    background-color: var(--secondary-color);
+}
+
+.hamburger-menu.active span:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+/* Mobile Responsive Navbar */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: var(--white);
+        border-bottom: 2px solid var(--secondary-color);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+        align-items: flex-start;
+        padding: 0;
+    }
+
+    .nav-menu.active {
+        max-height: 500px;
+        padding: 1rem 0;
+    }
+
+    .nav-menu li {
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-menu li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 1rem 1.5rem;
+        width: 100%;
+        text-align: left;
+    }
+
+    .nav-link:hover {
+        background-color: rgba(212, 175, 55, 0.08);
+    }
+
+    .theme-toggle {
+        margin: 0.5rem 1.5rem;
+        display: block;
+    }
 }
 
 .nav-brand {
@@ -682,5 +780,28 @@ a.reg-link:hover {
 
 /* Visited state to ensure it doesn't revert to standard browser blue */
 a.reg-link:visited {
-    color: var(--primary-color);
+    color: var(-secondary-color);
 }
+
+/* Signup Pending */
+.welcome-heading {
+     color: #228B22; margin-bottom: 1rem; 
+    } 
+
+.spaced-paragraph { 
+    margin-top: 1rem; 
+}
+
+.spaced-italic { 
+    margin-top: 1rem; font-style: italic; 
+}
+
+.content-padding { padding: 2rem 0; } 
+.members-layout { display: flex; gap: 2rem; align-items: flex-start; } 
+.members-sidebar { flex: 0 0 30%; } 
+.card--padded { padding: 1rem; } 
+.member-row { padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); } 
+.member-row a { color: var(--primary-color); text-decoration: none; font-weight: 500; }
+.member-details-column { flex: 1; }
+
+.glass-card { text-align: center; margin-bottom: 1rem; }

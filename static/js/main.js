@@ -19,6 +19,37 @@ if (toggleButton) {
 }
 
 // ============================================
+// HAMBURGER MENU TOGGLE
+// ============================================
+
+const hamburgerToggle = document.getElementById('hamburger-toggle');
+const navMenu = document.querySelector('.nav-menu');
+
+if (hamburgerToggle) {
+    hamburgerToggle.addEventListener('click', () => {
+        hamburgerToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Close menu when a nav link is clicked
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            hamburgerToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.navbar')) {
+            hamburgerToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+}
+
+// ============================================
 // CANDLE GLOW CURSOR EFFECT
 // ============================================
 

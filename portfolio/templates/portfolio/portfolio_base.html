@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}Rose Shane - Portfolio{% endblock %}
+        </title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+              rel="stylesheet">
+    </head>
+    <body>
+        <div class="cursor-glow"></div>
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">Rose Shane</div>
+                <button class="hamburger-menu" id="hamburger-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li>
+                        <a href="#home" class="nav-link">Home</a>
+                    </li>
+                    <li>
+                        <a href="#about" class="nav-link">About</a>
+                    </li>
+                    <li>
+                        <a href="#projectPs" class="nav-link">Projects</a>
+                    </li>
+                    <li>
+                        <a href="#resume" class="nav-link">Resume</a>
+                    </li>
+                    <li>
+                        <a href="#certifications" class="nav-link">Certifications</a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="nav-link">Contact</a>
+                    </li>
+                    <li>
+                        <button class="theme-toggle" id="theme-toggle"></button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        {% block content %}{% endblock %}
+        <footer class="footer">
+            <div class="container">
+                <p>AI Tools Used: ChatGPT • Gemini • Manus • JetBrains AI Assistant • Junie</p>
+            </div>
+        </footer>
+        <script src="{% static 'js/main.js' %}"></script>
+    </body>
+</html>

@@ -1,52 +1,50 @@
-{% extends 'base_app.html' %}
+{% extends 'ministryhub/base.html' %}
 {% load static %}
-
 {% block title %}Login | MinistryHub{% endblock %}
-
 {% block content %}
-<section class="auth-section dashboard-section" style="background-image: url('{% static "images/couples.jpg" %}');">
-  <div class="auth-container">
-    <h1 class="modal-title">Please Login</h1>
-  </div>
-</section>
-
-<!-- CHANGED ID HERE to bypass the main.js background click event handler loop -->
-<div id="login-detail-modal" class="auth-modal active">
-  <div class="modal-content">
-
-    <div>
-      <h2 class="modal-title">Welcome Back</h2>
-      <p class="modal-subtitle">Sign in to your MinistryHub account</p>
+    <section class="auth-section dashboard-section"
+             style="background-image: url('{% static "images/couples.jpg" %}')">
+        <div class="auth-container">
+            <h1 class="modal-title">Please Login</h1>
+        </div>
+    </section>
+    <!-- CHANGED ID HERE to bypass the main.js background click event handler loop -->
+    <div id="login-detail-modal" class="auth-modal active">
+        <div class="modal-content">
+            <div>
+                <h2 class="modal-title">Welcome Back</h2>
+                <p class="modal-subtitle">Sign in to your MinistryHub account</p>
+            </div>
+            {% if form.errors %}
+                <div class="alert alert-error">
+                    <strong>Authentication Failed:</strong> Invalid username or password. Please try again.
+                </div>
+            {% endif %}
+            <form method="post" action="{% url 'login' %}" class="auth-form">
+                {% csrf_token %}
+                <div class="form-row">
+                    <label for="id_username">
+                        Username <span style="color: #8B0000;">*</span>
+                    </label>
+                    {{ form.username }}
+                </div>
+                <div class="form-row">
+                    <label for="id_password">
+                        Password <span style="color: #8B0000;">*</span>
+                    </label>
+                    {{ form.password }}
+                </div>
+                {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </form>
+            <p class="auth-switch">
+                Don't have an account?
+                <a href="{% url 'signup' %}">Create one</a>
+            </p>
+            <p class="auth-switch">
+                Forgot your password?
+                <a href="{% url 'password_reset' %}">Reset it</a>
+            </p>
+        </div>
     </div>
-
-    {% if form.errors %}
-      <div class="alert alert-error">
-        <strong>Authentication Failed:</strong> Invalid username or password. Please try again.
-      </div>
-    {% endif %}
-
-    <form method="post" action="{% url 'login' %}" class="auth-form">
-      {% csrf_token %}
-
-      <div class="form-row">
-        <label for="id_username">Username <span style="color: #8B0000;">*</span></label>
-        {{ form.username }}
-      </div>
-
-      <div class="form-row">
-        <label for="id_password">Password <span style="color: #8B0000;">*</span></label>
-        {{ form.password }}
-      </div>
-
-      {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
-
-      <button type="submit" class="btn btn-primary">Sign In</button>
-    </form>
-
-    <p class="auth-switch">
-      Don't have an account?
-      <a href="{% url 'signup' %}">Create one</a>
-    </p>
-  </div>
-</div>
 {% endblock %}

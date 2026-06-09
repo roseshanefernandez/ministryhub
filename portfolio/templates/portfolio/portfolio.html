@@ -1,0 +1,172 @@
+{% extends 'portfolio/portfolio_base.html' %}
+{% load static %}
+{% block content %}
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">AI-Assisted Engineering for Modern Web Experiences</h1>
+                <p class="hero-subtitle">
+                    Web developer exploring the intersection of AI,
+                    DevOps, and scalable backend systems.
+                    This portfolio itself was designed and developed
+                    with AI-assisted workflows using Django and cloud infrastructure.
+                </p>
+                <a href="#projects" class="cta-button">Explore My Work</a>
+            </div>
+        </div>
+    </section>
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="divider"></div>
+            <div class="about-wrapper">
+                <div class="about-photo">
+                    <img src="{% static 'images/profile.png' %}"
+                         alt="Profile Photo"
+                         class="profile-image">
+                </div>
+                <div class="about-text-section">
+                    <p class="about-text">
+                        I'm a backend-focused full-stack developer passionate about
+                        AI-assisted engineering, automation, and scalable infrastructure.
+                        This portfolio is part of my exploration into modern
+                        AI-enhanced development workflows — combining human creativity,
+                        cloud-native architecture, and intelligent tooling to build
+                        faster, cleaner, and more maintainable systems.
+                        My focus areas include Django development,
+                        DevOps pipelines, cloud deployment, containerization,
+                        and AI-integrated product experiences.
+                    </p>
+                    <div class="skills-grid">
+                        {% for skill in skills %}
+                            <div class="skill-badge">{{ skill.name }}</div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            <div class="divider"></div>
+            <div class="projects-grid">
+                {% for project in projects %}
+                    <div class="project-card reveal">
+                        <h3 class="project-title">{{ project.title }}</h3>
+                        <p class="project-description">{{ project.description }}</p>
+                        <div class="project-tech">{{ project.tech_stack }}</div>
+                        {% if 'https' in project.redirect_path %}
+                            <a href="{{ project.redirect_path }}"
+                        {% else %}
+                            <a href="{% url project.redirect_path %}"
+                        {% endif %}
+                            class="project-link"
+                            target="_blank">View Project →</a>
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section id="resume" class="resume">
+    <div class="container">
+        <h2 class="section-title">Resume</h2>
+        <div class="divider"></div>
+        <p class="resume-intro">
+            Download my comprehensive resume to learn more about my experience,
+            technical skills, and professional background.
+        </p>
+        <div class="resume-button-wrapper">
+            <a href="{% static 'documents/resume.pdf' %}"
+               class="resume-button"
+               download>⬇️ Download Resume (PDF)</a>
+        </div>
+    </div>
+</section>
+<section id="certifications" class="certifications">
+    <div class="container">
+        <h2 class="section-title">Trainings and Certifications</h2>
+        <div class="divider"></div>
+        <div class="certifications-grid">
+            {% for certification in certifications %}
+                <div class="certification-card">
+                    <img src="{{ certification.image.url }}"
+                         alt="{{ certification.name }}"
+                         class="cert-image"
+                         onclick="openLightbox(this)">
+                    {% if certification.link %}
+                        <a href="{{ certification.link }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="cert-link">View Online →</a>
+                    {% else %}
+                        <a href="{{ certification.pdf.url }}" class="cert-link">Download →</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Lightbox Modal -->
+<div id="lightbox-modal" class="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-image" src="" alt="Certificate" class="lightbox-image">
+</div>
+<section id="architecture" class="architecture">
+    <div class="container">
+        <h2 class="section-title">Infrastructure Stack</h2>
+        <div class="divider"></div>
+        <p class="architecture-intro">
+            This website is deployed using a production-ready
+            cloud infrastructure focused on scalability,
+            reliability, and modern DevOps practices.
+        </p>
+        <div class="architecture-grid">
+            <div class="arch-card">
+                <div class="arch-icon">☁️</div>
+                <h3>Cloudflare</h3>
+                <p>DNS, SSL, CDN, and edge protection.</p>
+            </div>
+            <div class="arch-card">
+                <div class="arch-icon">🖥️</div>
+                <h3>AWS EC2</h3>
+                <p>Linux compute infrastructure hosting the application.</p>
+            </div>
+            <div class="arch-card">
+                <div class="arch-icon">⚡</div>
+                <h3>Nginx</h3>
+                <p>Reverse proxy and static asset serving.</p>
+            </div>
+            <div class="arch-card">
+                <div class="arch-icon">🔫</div>
+                <h3>Gunicorn</h3>
+                <p>WSGI application server powering Django.</p>
+            </div>
+            <div class="arch-card">
+                <div class="arch-icon">🐍</div>
+                <h3>Django</h3>
+                <p>Backend framework handling application logic and APIs.</p>
+            </div>
+            <div class="arch-card">
+                <div class="arch-icon">🗄️</div>
+                <h3>AWS RDS PostgreSQL</h3>
+                <p>Managed relational database for persistent storage.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="contact" class="contact">
+    <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="divider"></div>
+        <p>
+            Currently available for full-stack, backend,
+            and AI-assisted engineering opportunities.
+        </p>
+        <br>
+        <a href="mailto:roseshanefernandez@gmail.com" class="cta-button">Hire Me</a>
+    </div>
+</section>
+{% endblock %}

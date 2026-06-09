@@ -68,3 +68,24 @@ class MinistryHubTests(TestCase):
         )
         with self.assertRaises(ValidationError):
             profile.full_clean()  # should raise due to self-spouse rule
+
+    def test_inactive_user_cannot_login(self):
+        # Create an inactive user and ensure login is rejected
+        User = get_user_model()
+        inactive = User.objects.create_user(
+            username="inactive_user",
+            password="temp-pass-1",
+            is_active=False,
+        )
+
+        resp = self.client.post(
+            reverse("login"), {"username": inactive.username, "password": "temp-pass-1"}
+        )
+        # Login view should re-render the form with errors (status 200)
+        self.assertEqual(resp.status_code, 200)
+        # Client session should not have an authenticated user
+        self.assertNotIn("_auth_user_id", self.client.session)
+        # Form should contain non-field errors indicating login disallowed
+        form = resp.context.get("form")
+        self.assertIsNotNone(form)
+        self.assertTrue(form.non_field_errors())

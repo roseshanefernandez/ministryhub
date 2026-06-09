@@ -1,12 +1,26 @@
 from django.urls import path
 
-from .views import create_profile, dashboard, profile_detail
+from .prayer_views import PrayerRequestsView
+from .views import (
+    DashboardView,
+    ProfileDetailView,
+    CreateProfileView,
+    MemberProfilesView,
+    MemberProfileDetailAjaxView,
+)
 
 app_name = "ministryhub"
 
 urlpatterns = [
-    path("", dashboard, name="dashboard"),
-    # Intentional route spelling per request: 'profile/'
-    path("profile/", profile_detail, name="profile"),
-    path("profile/create/", create_profile, name="create_profile"),
+    path("", DashboardView.as_view(), name="dashboard"),
+    path("profile/", ProfileDetailView.as_view(), name="my_profile"),
+    path("profile/<int:id>/", ProfileDetailView.as_view(), name="user_profile"),
+    path("profile/create/", CreateProfileView.as_view(), name="create_profile"),
+    path("members/", MemberProfilesView.as_view(), name="member_profiles"),
+    path(
+        "members/profile/<int:pk>/",
+        MemberProfileDetailAjaxView.as_view(),
+        name="member_profile_detail",
+    ),
+    path("prayer-requests/", PrayerRequestsView.as_view(), name="prayer_requests"),
 ]
