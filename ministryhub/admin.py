@@ -9,7 +9,7 @@ from .models import Announcement, BibleVerse, Event, Profile
 @admin.register(Announcement)
 class AnnouncementAdmin(admin.ModelAdmin):
     list_display = ("title", "active")
-    list_filter = ("active", )
+    list_filter = ("active",)
 
     class Meta:
         model = Announcement

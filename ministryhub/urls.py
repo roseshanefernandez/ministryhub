@@ -2,11 +2,11 @@ from django.urls import path
 
 from .prayer_views import PrayerRequestsView
 from .views import (
-    DashboardView,
-    ProfileDetailView,
     CreateProfileView,
-    MemberProfilesView,
+    DashboardView,
     MemberProfileDetailAjaxView,
+    MemberProfilesView,
+    ProfileDetailView,
 )
 
 app_name = "ministryhub"

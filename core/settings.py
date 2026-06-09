@@ -163,7 +163,7 @@ if ENVIRONMENT == "production":
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
     AWS_SES_REGION_NAME = os.getenv("AWS_SES_REGION_NAME", "ap-southeast-1")
     AWS_SES_REGION_ENDPOINT = f"email.{AWS_SES_REGION_NAME}.amazonaws.com"
-    DEFAULT_FROM_EMAIL =  os.getenv("DEFAULT_FROM_EMAIL")
+    DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
     AWS_DEFAULT_REGION = os.getenv("AWS_DEFAULT_REGION")
 
 else:
@@ -174,4 +174,4 @@ else:
     EMAIL_HOST_USER = ""
     EMAIL_HOST_PASSWORD = ""
     EMAIL_USE_TLS = False
-    DEFAULT_FROM_EMAIL = 'noreply@izus.store'
+    DEFAULT_FROM_EMAIL = "noreply@izus.store"

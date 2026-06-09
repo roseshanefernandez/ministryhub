@@ -1,6 +1,7 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
+
 def generate_mock_image():
     """Generates a valid 1x1 pixel JPEG image in memory."""
     # 1. Create a 1x1 pixel RGB image stream in memory
@@ -11,10 +12,9 @@ def generate_mock_image():
 
     # 2. Wrap it in Django's SimpleUploadedFile wrapper
     return SimpleUploadedFile(
-        name="test_image.jpg",
-        content=file_io.read(),
-        content_type="image/jpeg"
+        name="test_image.jpg", content=file_io.read(), content_type="image/jpeg"
     )
+
 
 class AuthenticationFlowTests(TestCase):
     def setUp(self):

@@ -2,16 +2,18 @@ from zoneinfo import ZoneInfo
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, get_object_or_404
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import TemplateView, CreateView, DetailView
 from django.views import View
-from django.http import JsonResponse
+from django.views.generic import CreateView, DetailView, TemplateView
+
 from ministryhub.models import BibleVerse, Event
 
 from .forms import ProfileForm
-from .models import Profile, Announcement
+from .models import Announcement, Profile
+
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = "ministryhub/dashboard.html"
@@ -26,7 +28,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         try:
             # Set the desired timezone using zoneinfo
-            desired_timezone = ZoneInfo(settings.TIME_ZONE)  # Use TIME_ZONE from settings
+            desired_timezone = ZoneInfo(
+                settings.TIME_ZONE
+            )  # Use TIME_ZONE from settings
             # Get the current time in the desired timezone
             today_in_timezone = timezone.localtime(
                 timezone.now(), timezone=desired_timezone
@@ -37,9 +41,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         # Get top 5 upcoming events (nearest dates in the future)
         today = timezone.now().date()
-        upcoming_events = Event.objects.filter(end_date__gte=today, closed=False).order_by(
-            "start_date"
-        )[:5]
+        upcoming_events = Event.objects.filter(
+            end_date__gte=today, closed=False
+        ).order_by("start_date")[:5]
 
         announcements = Announcement.objects.filter(active=True).order_by("-created_at")
 
@@ -65,7 +69,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
     def get(self, request, *args, **kwargs):
         # 1. Determine if we are looking for 'self' or a specific ID
         profile_id = self.kwargs.get("id")
-        
+
         # 2. Attempt to fetch the profile object
         if profile_id is None:
             # Fallback to logged-in user's profile
@@ -84,6 +88,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         # 4. Profile exists: proceed with standard template rendering
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
+
 
 class CreateProfileView(LoginRequiredMixin, CreateView):
     model = Profile
@@ -128,6 +133,8 @@ class MemberProfileDetailAjaxView(LoginRequiredMixin, View):
         # Include spouse info if present
         if profile.spouse:
             data["spouse_id"] = profile.spouse.id
-            data["spouse_name"] = f"{profile.spouse.first_name} {profile.spouse.last_name}"
+            data["spouse_name"] = (
+                f"{profile.spouse.first_name} {profile.spouse.last_name}"
+            )
 
         return JsonResponse(data)
