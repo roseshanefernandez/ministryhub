@@ -116,6 +116,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -157,21 +159,31 @@ MEDIA_URL = "/media/"
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
 if ENVIRONMENT == "production":
+    # Use cache busting
+    STORAGES = {
+        "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+        "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"},
+    }
     # Route via AWS SES API
     EMAIL_BACKEND = "django_ses.SESBackend"
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
     AWS_SES_REGION_NAME = os.getenv("AWS_SES_REGION_NAME", "ap-southeast-1")
     AWS_SES_REGION_ENDPOINT = f"email.{AWS_SES_REGION_NAME}.amazonaws.com"
-    DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+
     AWS_DEFAULT_REGION = os.getenv("AWS_DEFAULT_REGION")
 
 else:
     # Local Development Setup
+    STORAGES = {
+        "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+        "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+    }
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST = os.getenv("EMAIL_HOST", "mailpit")
     EMAIL_PORT = int(os.getenv("EMAIL_PORT", 1025))
     EMAIL_HOST_USER = ""
     EMAIL_HOST_PASSWORD = ""
     EMAIL_USE_TLS = False
-    DEFAULT_FROM_EMAIL = "noreply@izus.store"
+
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")

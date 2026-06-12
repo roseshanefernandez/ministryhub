@@ -1,6 +1,6 @@
 from django.test import Client, TestCase
 from django.urls import reverse
-
+from django.contrib.auth import get_user_model
 
 def generate_mock_image():
     """Generates a valid 1x1 pixel JPEG image in memory."""

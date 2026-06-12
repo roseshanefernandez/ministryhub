@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LogoutView, PasswordResetView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-
+from django.conf import settings
 from .forms import CustomUserCreationForm
 
 User = get_user_model()
@@ -31,7 +31,7 @@ def signup(request):
 class CustomPasswordResetView(PasswordResetView):
     template_name = "registration/reset_password.html"
     success_url = reverse_lazy("password_reset_done")
-
+    from_email = settings.DEFAULT_FROM_EMAIL
 
 class PostOnlyLogoutView(LogoutView):
     """Custom logout view that only accepts POST requests for security and renders a confirmation page."""
