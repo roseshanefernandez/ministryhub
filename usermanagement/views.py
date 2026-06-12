@@ -32,7 +32,7 @@ def signup(request):
 class CustomPasswordResetView(PasswordResetView):
     template_name = "registration/reset_password.html"
     success_url = reverse_lazy("password_reset_done")
-    from_email = "noreply@izus.store"
+    from_email = settings.DEFAULT_FROM_EMAIL
 
 
 class PostOnlyLogoutView(LogoutView):
